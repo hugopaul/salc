@@ -3,6 +3,8 @@ package br.mil.eb.basecmp.salc.domain;
 import br.mil.eb.basecmp.salc.domain.enums.EstadoAprovacao;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -19,11 +21,12 @@ public class AprovacaoRequisicao {
     @Column(name = "estado_requisicao")
     private Integer estate;
 
-    @Column(name = "data_aprovacao")
+    @Column(name = "data_aprovacao", updatable = false)
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataEstadoAprovacao;
+    private Date dataEstadoAprovacao;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "id_requisicao")
     private Requisicao requisicao;
 
@@ -36,9 +39,7 @@ public class AprovacaoRequisicao {
     }
     @PrePersist
     public void prePercist() {
-        setDataEstadoAprovacao(LocalDate.now());
         setEstate(EstadoAprovacao.PENDENTE);
     }
 
-    //FAZER TESTE DESTE PREPERCIST AO DEFINIR ESTADO DA REQUISIÇÃO
 }

@@ -3,7 +3,7 @@ package br.mil.eb.basecmp.salc.domain.enums;
 public enum EstadoAprovacao {
     APROVADO(1, "Aprovado"),
     REPROVADO(2, "Reprovado"),
-    PENDENTE(1, "Pendente");
+    PENDENTE(3, "Pendente");
 
     private int cod;
     private String descricao;

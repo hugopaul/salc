@@ -2,6 +2,8 @@ package br.mil.eb.basecmp.salc.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -25,6 +27,7 @@ public class Empenho{
     private Date dataEmpenho;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "id_aprovacao")
     private AprovacaoRequisicao aprovacao;
 

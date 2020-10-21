@@ -38,10 +38,13 @@ public class Requisicao {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataRequisite;
 
-
     @PrePersist
     public void prePercist() {
         setDataRequisite(LocalDate.now());
+    }
+    public void criarAppAuto() {
+        AprovacaoRequisicao ap = new AprovacaoRequisicao();
+        ap.setRequisicao();
     }
 }
 

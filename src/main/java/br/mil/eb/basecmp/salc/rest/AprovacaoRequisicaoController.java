@@ -5,7 +5,11 @@ import br.mil.eb.basecmp.salc.domain.Empenho;
 import br.mil.eb.basecmp.salc.repository.AprovacaoRequisicaoRepository;
 import br.mil.eb.basecmp.salc.repository.RequisicaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/aprovacao")
@@ -21,5 +25,26 @@ public class AprovacaoRequisicaoController {
     @PostMapping
     public AprovacaoRequisicao salvar(@RequestBody AprovacaoRequisicao e){
         return repository.save(e);
+    }
+    @GetMapping("{id}")
+    public AprovacaoRequisicao findById(@PathVariable Integer id){
+        return repository.findById(id).orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Empenho não Encontrado"
+                )
+        );
+    }
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletar(@PathVariable Integer id){
+        repository.findById(id).map(
+                aprovacao -> {
+                    repository.delete(aprovacao);
+                    return Void.TYPE;
+                }
+        ).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Aprovação de Requisição não encontrada"));
+    }
+    @GetMapping
+    public List<AprovacaoRequisicao> findAll(){
+        return repository.findAll();
     }
 }
