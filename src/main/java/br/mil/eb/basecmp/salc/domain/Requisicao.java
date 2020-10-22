@@ -27,6 +27,10 @@ public class Requisicao {
     private Date dataDoc;
 
     @Column(nullable = false)
+    @NotEmpty(message = "O valor não pode está vazio")
+    private Double valor;
+
+    @Column(nullable = false)
     @NotEmpty(message = "O Título da requisição é Obrigatório!")
     private String titulo;
 
