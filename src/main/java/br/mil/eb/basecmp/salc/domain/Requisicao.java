@@ -7,6 +7,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -19,13 +20,13 @@ public class Requisicao {
     private Integer id;
 
     @Column(nullable = false)
+    @NotNull(message = "O Documento de de origem da requisição é obrigatório!")
     @NotEmpty(message = "O Documento de de origem da requisição é obrigatório!")
     private String doc;
 
-    @Column(nullable = false)
-    @NotEmpty(message = "A Data do Documento de origem da requisição é obrigatório!")
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private Date dataDoc;
+    @Column(name = "data_doc")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dataDoc;
 
     @Column(nullable = false)
     @NotEmpty(message = "O valor não pode está vazio")
@@ -58,7 +59,6 @@ public class Requisicao {
     @PrePersist
     public void prePercist() {
         setDataRequisite(LocalDate.now());
-        setSecao(SecaoSolicitante.PENDENTE);
     }
 
 }

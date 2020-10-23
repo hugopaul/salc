@@ -1,16 +1,21 @@
 package br.mil.eb.basecmp.salc.rest;
 
+import br.mil.eb.basecmp.salc.ApplicationControllerAdvise;
 import br.mil.eb.basecmp.salc.domain.AprovacaoRequisicao;
 import br.mil.eb.basecmp.salc.domain.Empenho;
 import br.mil.eb.basecmp.salc.domain.Requisicao;
 import br.mil.eb.basecmp.salc.repository.AprovacaoRequisicaoRepository;
 import br.mil.eb.basecmp.salc.repository.EmpenhoRepository;
 import br.mil.eb.basecmp.salc.repository.RequisicaoRepository;
+import org.hibernate.HibernateException;
+import org.hibernate.PropertyValueException;
+import org.omg.CORBA.portable.ApplicationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -29,14 +34,17 @@ public class RequisicaoController {
 
     @PostMapping
     public Requisicao salvar(@RequestBody Requisicao e){
-       // AprovacaoRequisicao ap = new AprovacaoRequisicao();
-      //  ap.setRequisicao(e);
+       // if( e.getDataDoc() == null){
+  //          LocalDate date = LocalDate.now();
+  //          e.setDataDoc(date);
+ //       }
      return repository.save(e);
     }
+
     @GetMapping("{id}")
     public Requisicao findById(@PathVariable Integer id){
         return repository.findById(id).orElseThrow(() -> new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "Empenho não Encontrado"
+                HttpStatus.NOT_FOUND, "Requisição não Encontrada"
                 )
         );
     }
