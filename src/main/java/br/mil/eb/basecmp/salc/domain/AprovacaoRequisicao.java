@@ -37,6 +37,7 @@ public class AprovacaoRequisicao {
     public void setEstate(EstadoAprovacao estate) {
         this.estate = estate.getCod();
     }
+
     @PrePersist
     public void prePercist() {
         setEstate(EstadoAprovacao.PENDENTE);

@@ -1,6 +1,7 @@
 package br.mil.eb.basecmp.salc.domain;
 
 import br.mil.eb.basecmp.salc.domain.enums.EstadoAprovacao;
+import br.mil.eb.basecmp.salc.domain.enums.SecaoSolicitante;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
@@ -38,17 +39,28 @@ public class Requisicao {
     @NotEmpty(message = "A Descrição da Requisição é Obrigatório!")
     private String descricao;
 
+    @Column(nullable = false)
+    @NotEmpty(message = "Selecione a SEÇÃO Solicitante")
+    private Integer secao;
+
     @Column(name = "data_requisite", updatable = false)
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataRequisite;
 
+    public SecaoSolicitante getSecao() {
+        return SecaoSolicitante.toEnum(secao);
+    }
+    public void setSecao(SecaoSolicitante estate) {
+        this.secao = estate.getCod();
+    }
+
+
     @PrePersist
     public void prePercist() {
         setDataRequisite(LocalDate.now());
+        setSecao(SecaoSolicitante.PENDENTE);
     }
-    public void criarAppAuto() {
 
-    }
 }
 
 

@@ -27,7 +27,7 @@ public class Fornecedor {
     private String razao;
 
     @Column(name = "data_ctt_fornecedor")
-    private LocalDate dataConttFornecedor;
+    private Date dataConttFornecedor;
 
     @Column(nullable = false)
     @NotEmpty(message = "Digite o PRAZO para o fornecedor entregar")
@@ -35,11 +35,6 @@ public class Fornecedor {
 
     @Column(name = "data_entrega", updatable = false)
     private Date dataEntrega;
-
-    @PrePersist
-    public void prePercist() {
-        setDataConttFornecedor(LocalDate.now());
-    }
 
 
 }

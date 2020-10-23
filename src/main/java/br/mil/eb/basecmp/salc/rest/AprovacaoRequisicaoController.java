@@ -15,6 +15,7 @@ import java.util.List;
 @RequestMapping("/aprovacao")
 @CrossOrigin("http://localhost:4200")
 public class AprovacaoRequisicaoController {
+
     private final AprovacaoRequisicaoRepository repository;
 
     @Autowired
