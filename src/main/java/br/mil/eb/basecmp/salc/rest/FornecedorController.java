@@ -7,11 +7,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 @RestController
 @RequestMapping("/fornecedor")
-@CrossOrigin("http://localhost:4200")
 public class FornecedorController {
 
     private final FornecedorRepository repository;
@@ -22,7 +30,10 @@ public class FornecedorController {
     }
 
     @PostMapping
-    public Fornecedor salvar(@RequestBody Fornecedor e){
+    public Fornecedor salvar(@RequestBody @Valid Fornecedor e){
+
+        Long days = Long.valueOf(e.getPrazoEntrega().intValue());
+        e.setDataEntrega(e.getDataConttFornecedor().plusDays(days));
         return repository.save(e);
     }
 
@@ -34,10 +45,12 @@ public class FornecedorController {
         );
     }
 
+
     @GetMapping
     public List<Fornecedor> findAll(){
         return repository.findAll();
     }
+
 
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -51,8 +64,8 @@ public class FornecedorController {
     }
 
     @PutMapping("{id}")
-    @ResponseStatus
-    public void update(@PathVariable Integer id, @RequestBody Fornecedor fornecedorAtt){
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@PathVariable Integer id, @RequestBody @Valid Fornecedor fornecedorAtt){
         repository.findById(id).map(fornecedorDesatt ->{
             fornecedorAtt.setId(fornecedorDesatt.getId());
             return repository.save(fornecedorAtt);
