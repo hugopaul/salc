@@ -15,12 +15,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 @RequestMapping("/requisicoes")
-@CrossOrigin("http://localhost:4200")
 public class RequisicaoController {
 
     private final RequisicaoRepository repository;
@@ -33,11 +33,9 @@ public class RequisicaoController {
 
 
     @PostMapping
-    public Requisicao salvar(@RequestBody Requisicao e){
-       // if( e.getDataDoc() == null){
-  //          LocalDate date = LocalDate.now();
-  //          e.setDataDoc(date);
- //       }
+    @ResponseStatus(HttpStatus.CREATED)
+    public Requisicao salvar(@RequestBody @Valid Requisicao e){
+
      return repository.save(e);
     }
 
@@ -64,8 +62,8 @@ public class RequisicaoController {
         ).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Aprovação de Requisição não encontrada"));
     }
     @PutMapping("{id}")
-    @ResponseStatus
-    public void update(@PathVariable Integer id, @RequestBody Requisicao requisicaoAtualizado){
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@PathVariable Integer id, @RequestBody @Valid Requisicao requisicaoAtualizado){
             repository.findById(id).map(requisicaoDesatualizada ->{
                 requisicaoAtualizado.setId(requisicaoDesatualizada.getId());
                 return repository.save(requisicaoAtualizado);
